@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 const crypto = require('crypto');
@@ -211,3 +212,24 @@ exports.logout = (req, res) => {
         message: 'User successfully logged out!',
     });
 };
+
+exports.addAdmin = catchAsync(async (req, res, next) => {
+    const admin = await User.create({
+        name: req.body.name,
+        email: req.body.email,
+        dob: req.body.dob,
+        address: req.body.address,
+        contact: req.body.contact,
+        password: req.body.password,
+        // passwordConfirm: req.body.passwordConfirm,
+        role: req.body.role,
+    });
+
+    if (!admin) next(new AppError('The admin could not be created!', 404));
+
+    res.statu(201).json({
+        status: 'success',
+        message: 'The admin created successfully',
+        data: admin,
+    });
+});

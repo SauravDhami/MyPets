@@ -4,7 +4,7 @@ const productSchema = mongoose.Schema(
     {
         name: {
             type: String,
-            required: true,
+            required: [true, 'please insert the name of product!'],
         },
 
         description: {
@@ -12,34 +12,21 @@ const productSchema = mongoose.Schema(
             max: 100,
         },
 
-        image: [
+        images: [
             {
                 type: String,
             },
         ],
 
-        category: {
+        breed: {
             type: String,
+            required: [true, 'Please insert the breed of the product'],
         },
 
         price: {
             type: Number,
-            required: true,
+            required: [true, 'Please insert the price of the product'],
         },
-
-        brand: String,
-
-        vehicle: {
-            type: String,
-            required: true,
-        },
-
-        review: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Review',
-        },
-
-        color: String,
 
         numReviews: {
             type: mongoose.Schema.Types.ObjectId,
@@ -48,11 +35,19 @@ const productSchema = mongoose.Schema(
 
         isAvailable: {
             type: Boolean,
-            default: false,
+            default: true,
+            required: true,
         },
     },
     { timestapms: true }
 );
 
-const Product = mongoose.Schema('Product', productSchema);
+//* VIRTUALLY POPULATING REVIEWS
+productSchema.virtual('reviews', {
+    ref: 'Review',
+    foreignField: 'product',
+    localField: '_id',
+});
+
+const Product = mongoose.model('Product', productSchema);
 module.exports = Product;

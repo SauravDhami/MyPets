@@ -20,16 +20,16 @@ app.use(express.json());
 
 //? ROUTES HANDLING
 const userRoutes = require('./routes/userRoutes');
-// const productRoutes = require('./routes/productRoutes');
-// const orderRoutes = require('./routes/orderRoutes');
-// const reviewRoutes = require('./routes/reviewRoutes');
-// const adminRoutes = require('./routes/adminRoutes');
+const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 app.use(`/users`, userRoutes);
-// app.use(`/products`, productRoutes);
-// app.use(`/orders`, orderRoutes);
-// app.use(`/reviews`, reviewRoutes);
-// app.use(`/admin`, adminRoutes);
+app.use(`/products`, productRoutes);
+app.use(`/orders`, orderRoutes);
+app.use(`/reviews`, reviewRoutes);
+app.use(`/admin`, adminRoutes);
 
 //! GLOBAL ERROR HANDLING
 app.use('*', (res, req, next) => {
@@ -44,7 +44,7 @@ mongoose
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
-        dbName: 'SpareDB',
+        dbName: 'MyPets',
     })
     .then(() => {
         console.log('Database connection is ready...');

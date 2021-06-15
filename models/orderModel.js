@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const Product = require('./productModel');
 const orderSchema = mongoose.Schema(
     {
         buyer: {
@@ -34,11 +34,28 @@ const orderSchema = mongoose.Schema(
 
         totalPrice: {
             type: Number,
-            required: true,
         },
     },
     { timestamps: true }
 );
 
-const Order = mongoose.Schema('Order', orderSchema);
+orderSchema.pre('save', async function (next) {
+    const product = await Product.findById(this.product);
+
+    this.totalPrice = this.quantity * product.price;
+});
+
+//* POPULATE OPTIONS
+orderSchema.pre(/^find/, async function (next) {
+    this.populate({
+        path: 'product',
+        select: 'name',
+    }).populate({
+        path: 'buyer',
+        select: 'name',
+    });
+    next();
+});
+
+const Order = mongoose.model('Order', orderSchema);
 module.exports = Order;
