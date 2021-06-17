@@ -3,42 +3,35 @@ const AppError = require('../helpers/appError');
 
 exports.getAll = (Model, popOptions) =>
     catchAsync(async (req, res, next) => {
-        //*1. checking Model
-        let query = Model.find();
-        if (popOptions) {
-            query = query.populate(popOptions);
-        }
+        let resultQuery = Model.find(req.query);
 
-        const doc = await query;
-        if (!doc) {
-            return next(new AppError('The requested Document cound not be found!!', 404));
-        }
+        if (popOptions) resultQuery = resultQuery.populate(popOptions);
+
+        const doc = await resultQuery;
+
+        if (!doc) return next(new AppError('The requested document could not be found!', 404));
 
         res.status(200).json({
             status: 'success',
-            result: doc.length,
-            message: 'The requested document found',
+            results: doc.length,
+            message: 'The requested document found!',
             data: doc,
         });
     });
 
 exports.getOne = (Model, popOptions) =>
     catchAsync(async (req, res, next) => {
-        let query = Model.findById(req.params.id);
+        let resultQuery = Model.findById(req.params.id, req.query);
 
-        if (popOptions) {
-            query = query.populate(popOptions);
-        }
+        if (popOptions) resultQuery = resultQuery.populate('reviews');
 
-        const doc = await query;
+        const doc = await resultQuery;
 
-        if (!doc) {
-            return next(new AppError('The requested Document cound not be found!!', 404));
-        }
+        if (!doc) return next(new AppError('The requested document could not be found!', 404));
 
         res.status(200).json({
             status: 'success',
-            message: 'The requested document found',
+            message: 'The requested document found!',
             data: doc,
         });
     });
@@ -49,9 +42,9 @@ exports.createOne = (Model) =>
 
         if (!doc) return next(new AppError('The requested document could not be created!', 404));
 
-        res.status(200).json({
+        res.status(201).json({
             status: 'success',
-            message: `The requested document is created!`,
+            message: 'The requested document created!',
             data: doc,
         });
     });
@@ -68,9 +61,7 @@ exports.updateOne = (Model) =>
         res.status(200).json({
             status: 'success',
             message: `The requested document is updated!`,
-            data: {
-                doc,
-            },
+            data: doc,
         });
     });
 
