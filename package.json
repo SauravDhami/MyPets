@@ -1,5 +1,5 @@
 {
-    "name": "bikespareparts",
+    "name": "mypets",
     "version": "1.0.0",
     "description": "Backend for the bikespareparts",
     "main": "app.js",
@@ -14,11 +14,11 @@
         "url": "git+https://github.com/vincentvicran/bikeSpareParts.git"
     },
     "keywords": [
-        "Bike",
-        "Spare",
-        "Parts"
+        "My",
+        "Pets",
+        "Shop"
     ],
-    "author": "Vikrant Shrestha",
+    "author": "Saurav Dhami",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/vincentvicran/bikeSpareParts/issues"
