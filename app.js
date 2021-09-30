@@ -11,6 +11,7 @@ const AppError = require('./helpers/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
+const path = require('path');
 
 //* CROSS ORIGIN HANDLING
 app.use(cors());
@@ -44,7 +45,8 @@ const limiter = rateLimit({
 app.use('/', limiter);
 
 //? serving static files
-app.use(express.static(`${__dirname}/public`));
+//app.use(express.static(`${__dirname}/public`));
+app.use('/', express.static(path.join(__dirname, `/`)));
 
 //? data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -58,6 +60,7 @@ const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const { path } = require('dotenv/lib/env-options');
 
 app.use(`/users`, userRoutes);
 app.use(`/products`, productRoutes);
