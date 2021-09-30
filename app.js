@@ -6,12 +6,12 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-
+const path = require('path');
 const AppError = require('./helpers/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
-const path = require('path');
+
 
 //* CROSS ORIGIN HANDLING
 app.use(cors());
@@ -60,7 +60,7 @@ const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-const { path } = require('dotenv/lib/env-options');
+//const { path } = require('dotenv/lib/env-options');
 
 app.use(`/users`, userRoutes);
 app.use(`/products`, productRoutes);
